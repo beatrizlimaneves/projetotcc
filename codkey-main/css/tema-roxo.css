@@ -1,0 +1,62 @@
+/* AcademiaFit — identidade visual roxa */
+:root {
+  --roxo-950:#211033; --roxo-900:#2d1746; --roxo-800:#432064;
+  --roxo-700:#5b2b87; --roxo-600:#7136a8; --roxo-500:#8547c7;
+  --roxo-100:#f0e7fa; --roxo-50:#faf7fe;
+  --fundo:#f6f3fa; --superficie:#ffffff; --texto:#241b2e;
+  --texto-suave:#766b82; --borda:#e8e0ef; --sucesso:#16845b;
+  --sombra:0 12px 32px rgba(45,23,70,.08); --raio:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fundo);color:var(--texto);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+a{color:var(--roxo-700);text-decoration:none}
+a:hover{color:var(--roxo-500)}
+.navbar,header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:17px clamp(18px,4vw,54px);background:linear-gradient(115deg,var(--roxo-950),var(--roxo-800));box-shadow:0 5px 20px rgba(33,16,51,.18)}
+.logo-container,.brand,.logo{display:flex;align-items:center;gap:10px;color:#fff;font-size:20px;font-weight:800;white-space:nowrap}
+.logo-icon{font-size:23px}.brand-name{color:#fff;font-size:20px;font-weight:800}
+.nav-links,nav ul{display:flex;align-items:center;gap:7px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav-links a,header nav a{display:block;padding:9px 12px;border-radius:10px;color:#e9dff4;font-size:14px;font-weight:600;transition:.2s}
+.nav-links a:hover,.nav-links a.active,header nav a:hover{background:rgba(255,255,255,.14);color:#fff}
+main,.main-container,.container{width:min(1180px,calc(100% - 40px));margin:38px auto 60px}
+h1,h2,h3{color:var(--roxo-950);line-height:1.2;margin-top:0}
+h1,.page-title,.title{font-size:clamp(26px,3vw,34px);font-weight:800;letter-spacing:-.7px;margin-bottom:24px}
+h2,.form-title,.section-title{font-size:21px;font-weight:750;margin-bottom:20px}
+p{color:var(--texto-suave)}
+.card,.form-container,.panel,.auth-card,.table-container,.main-content .card{background:var(--superficie);border:1px solid var(--borda);border-radius:var(--raio);box-shadow:var(--sombra)}
+.card,.panel{padding:24px}
+.form-container{padding:clamp(22px,3vw,34px);margin-bottom:34px}
+form{display:grid;gap:17px}
+.form-group,.campo{display:flex;flex-direction:column;gap:7px;margin:0}
+label{font-size:13px;font-weight:750;color:#493957}
+input,select,textarea{width:100%;min-height:46px;padding:12px 14px;border:1px solid #d9cfe3;border-radius:10px;background:#fff;color:var(--texto);font:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+textarea{min-height:100px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#a398b0}
+input:focus,select:focus,textarea:focus{border-color:var(--roxo-500);box-shadow:0 0 0 4px rgba(133,71,199,.13)}
+button,.btn-submit,.btn-add{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 18px;border:0;border-radius:10px;background:linear-gradient(120deg,var(--roxo-700),var(--roxo-500));color:white;font:inherit;font-size:14px;font-weight:750;cursor:pointer;box-shadow:0 5px 12px rgba(91,43,135,.17);transition:transform .18s,filter .18s}
+button:hover,.btn-submit:hover,.btn-add:hover{filter:brightness(1.07);transform:translateY(-1px)}
+button:focus-visible,a:focus-visible{outline:3px solid #c8a6ed;outline-offset:3px}
+.header-actions{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}
+.header-actions .title{margin:0}
+.cards-grid,.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.cards-grid .card,.dashboard-grid .card{position:relative;overflow:hidden;padding:26px;border-radius:18px}
+.card-header{font-size:15px;font-weight:700;color:var(--texto-suave);margin-bottom:14px}
+.card-value{font-size:36px;font-weight:850;color:var(--roxo-800);letter-spacing:-1px}
+.table-container{overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;text-align:left;font-size:14px;min-width:620px}
+.data-table th{background:var(--roxo-900);color:#fff;padding:15px 17px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.data-table td{padding:15px 17px;border-bottom:1px solid var(--borda);color:#4b4055}
+.data-table tbody tr:hover{background:var(--roxo-50)}
+.data-table tbody tr:last-child td{border-bottom:0}
+.empty-message{color:var(--texto-suave);text-align:center;padding:25px!important}
+.status,.badge{display:inline-block;padding:5px 10px;border-radius:999px;background:var(--roxo-100);color:var(--roxo-800);font-size:12px;font-weight:750}
+.form-container form{grid-template-columns:repeat(2,minmax(0,1fr))}
+.form-container form button{align-self:end}
+.form-container form .full-width{grid-column:1/-1}
+.auth-card,.form-container:has(.campo){max-width:650px;margin:35px auto;padding:clamp(24px,4vw,42px)}
+.form-container:has(.campo) h1{margin-bottom:25px}
+body:has(.form-container .campo){background:radial-gradient(ellipse at top left,#eee2fa 0,transparent 42%),var(--fundo)}
+.divider{height:1px;background:var(--borda);margin:24px 0}
+::selection{background:#dbc3f3;color:var(--roxo-950)}
+@media(max-width:900px){.navbar,header{align-items:flex-start;flex-direction:column;gap:12px}.nav-links,header nav{width:100%}.nav-links a,header nav a{padding:8px 10px}.main-container,.container,main{margin-top:28px}.cards-grid,.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){main,.main-container,.container{width:calc(100% - 28px);margin:22px auto 40px}.cards-grid,.dashboard-grid{grid-template-columns:1fr}.form-container form{grid-template-columns:1fr}.form-container form .full-width{grid-column:auto}.header-actions{align-items:flex-start;flex-direction:column}.navbar,header{padding:15px}.nav-links,header nav{display:flex;flex-wrap:wrap}.data-table{font-size:13px}.card-value{font-size:30px}}

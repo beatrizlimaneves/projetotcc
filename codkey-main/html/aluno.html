@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiaFit - Alunos</title>
+    <!-- Vinculando o arquivo CSS externo -->
+    <link rel="stylesheet" href="../css/alunos.css">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <span class="logo-icon">🏋️</span>
+            <span class="brand-name">AcademiaFit</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="paginainicial.html">Dashboard</a></li>
+            <li><a href="aluno.html" class="active">Alunos</a></li>
+            <li><a href="prof.html">Professores</a></li>
+            <li><a href="planos.html">Planos</a></li>
+            <li><a href="pagamentos.html">Pagamentos</a></li>
+            <li><a href="treino.html">Treinos</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <main class="main-container">
+        <div class="header-actions">
+            <h1 class="title">Alunos</h1>
+            <button class="btn-add" onclick="location.href='cadastroal.html'">+ Novo aluno</button>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Plano</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-alunos"><tr><td colspan="7" class="empty-message">Carregando alunos...</td></tr></tbody>
+            </table>
+        </div>
+    </main>
+
+<script>
+const API = window.API_BASE || (location.port === "5000" ? location.origin : `${location.protocol}//${location.hostname || "127.0.0.1"}:5000`);
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+async function carregarAlunos(){const tb=document.getElementById("tabela-alunos");try{const r=await fetch(`${API}/api/alunos`);if(!r.ok)throw Error();const a=await r.json();tb.innerHTML=a.length?a.map(x=>`<tr><td>${x.id}</td><td>${esc(x.nome)}</td><td>${esc(x.email||"—")}</td><td>${esc(x.telefone||"—")}</td><td>${esc(x.plano||"—")}</td><td><span class="status">${esc(x.status||"Ativo")}</span></td><td><button onclick="excluirAluno(${x.id})">Excluir</button></td></tr>`).join(""):'<tr><td colspan="7" class="empty-message">Nenhum aluno cadastrado.</td></tr>';}catch(e){tb.innerHTML='<tr><td colspan="7" class="empty-message">Não foi possível carregar. Verifique se a API está iniciada.</td></tr>';}}
+async function excluirAluno(id){if(!confirm("Excluir este aluno? Os pagamentos e treinos associados também serão excluídos."))return;const r=await fetch(`${API}/api/alunos/${id}`,{method:"DELETE"});const d=await r.json();if(!r.ok)alert(d.erro||"Erro ao excluir");carregarAlunos();}
+carregarAlunos();
+</script>
+</body>
+</html>

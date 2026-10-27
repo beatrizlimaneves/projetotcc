@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiaFit - Dashboard</title>
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="../css/pagina.css">
+    <!-- Importação de ícones via CDN -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- Menu Superior -->
+    <nav class="navbar">
+        <div class="brand">
+            <img src="../assets/academiafit-logo.png" alt="" style="width:42px;height:34px;object-fit:cover;object-position:center;border-radius:7px"> AcademiaFit
+        </div>
+        <ul class="nav-links">
+            <li><a href="paginainicial.html" class="active">Dashboard</a></li>
+            <li><a href="aluno.html">Alunos</a></li>
+            <li><a href="prof.html">Professores</a></li>
+            <li><a href="planos.html">Planos</a></li>
+            <li><a href="pagamentos.html">Pagamentos</a></li>
+            <li><a href="treino.html">Treinos</a></li>
+            <li><a href="login.html" id="linkSair">Sair</a></li>
+        </ul>
+    </nav>
+
+    <!-- Área do Dashboard -->
+    <main class="container">
+        <h1 class="page-title">Dashboard</h1>
+
+        <div class="cards-grid">
+            <!-- Card Alunos -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-users blue-icon"></i> Alunos
+                </div>
+                <div class="card-value" id="total-alunos">—</div>
+            </div>
+
+            <!-- Card Professores -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-chalkboard-user orange-icon"></i> Professores
+                </div>
+                <div class="card-value" id="total-professores">—</div>
+            </div>
+
+            <!-- Card Planos -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-address-card teal-icon"></i> Planos
+                </div>
+                <div class="card-value" id="total-planos">—</div>
+            </div>
+        </div>
+    </main>
+
+<script>
+const API = window.API_BASE || (location.port === "5000" ? location.origin : `${location.protocol}//${location.hostname || "127.0.0.1"}:5000`);
+fetch(`${API}/api/dashboard`).then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{document.getElementById("total-alunos").textContent=d.alunos;document.getElementById("total-professores").textContent=d.professores;document.getElementById("total-planos").textContent=d.planos;}).catch(()=>{document.querySelectorAll(".card-value").forEach(el=>el.textContent="—")});
+</script>
+<script>document.getElementById("linkSair")?.addEventListener("click",()=>sessionStorage.removeItem("academiafit_usuario"));</script>
+</body>
+</html>

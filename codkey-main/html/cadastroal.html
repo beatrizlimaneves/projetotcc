@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AcademiaFit - Cadastro de Aluno</title>
+
+    <link rel="stylesheet" href="../css/cadastroalal.css">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- CABEÇALHO -->
+    <header>
+
+        <div class="logo">
+            🏋️ AcademiaFit
+        </div>
+
+        <nav>
+            <a href="paginainicial.html">Dashboard</a>
+            <a href="aluno.html">Alunos</a>
+        </nav>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <main>
+
+        <h1>Cadastro de Aluno</h1>
+
+        <div class="card">
+
+            <form id="formAluno">
+
+                <!-- NOME -->
+                <div class="campo">
+
+                    <label for="nome">
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- E-MAIL -->
+                <div class="campo">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TELEFONE -->
+                <div class="campo">
+
+                    <label for="telefone">
+                        Telefone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(11) 99999-9999"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DATA DE NASCIMENTO -->
+                <div class="campo">
+
+                    <label for="dataNascimento">
+                        Data de nascimento
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dataNascimento"
+                        name="dataNascimento"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PLANO -->
+                <div class="campo">
+
+                    <label for="plano">
+                        Plano
+                    </label>
+
+                    <select
+                        id="plano"
+                        name="plano"
+                        required
+                    >
+
+                        <option value="Mensal">
+                            Mensal
+                        </option>
+
+                        <option value="Trimestral">
+                            Trimestral
+                        </option>
+
+                        <option value="Semestral">
+                            Semestral
+                        </option>
+
+                        <option value="Anual">
+                            Anual
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- BOTÃO -->
+                <button type="submit">
+                    Cadastrar aluno
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        const formulario = document.getElementById("formAluno");
+
+
+        formulario.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            // Pegando os valores dos campos
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const telefone = document.getElementById("telefone").value;
+            const dataNascimento = document.getElementById("dataNascimento").value;
+            const plano = document.getElementById("plano").value;
+
+
+            // Criando o objeto do aluno
+            const aluno = {
+
+                nome: nome,
+                email: email,
+                telefone: telefone,
+                dataNascimento: dataNascimento,
+                plano: plano
+
+            };
+
+
+            try {
+
+                // Enviando para o Flask
+                const resposta = await fetch(
+                    (window.API_BASE || (location.port === "5000" ? location.origin : `${location.protocol}//${location.hostname || "127.0.0.1"}:5000`)) + "/api/alunos",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(aluno)
+
+                    }
+                );
+
+
+                const dados = await resposta.json();
+
+
+                // Verificando resposta
+                if (resposta.ok) {
+
+                    alert("Aluno cadastrado com sucesso!");
+
+                    formulario.reset();
+
+                } else {
+
+                    alert(
+                        dados.erro || "Erro ao cadastrar aluno."
+                    );
+
+                }
+
+            } catch (erro) {
+
+                console.error(erro);
+
+                alert(
+                    "Não foi possível conectar com o servidor."
+                );
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

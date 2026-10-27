@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiaFit - Pagamentos</title>
+    <!-- Vinculando o mesmo arquivo CSS centralizado -->
+    <link rel="stylesheet" href="../css/prof.css">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <span class="logo-icon">🏋️</span>
+            <span class="brand-name">AcademiaFit</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="paginainicial.html">Dashboard</a></li>
+            <li><a href="aluno.html">Alunos</a></li>
+            <li><a href="prof.html">Professores</a></li>
+            <li><a href="planos.html">Planos</a></li>
+            <li><a href="pagamentos.html" class="active">Pagamentos</a></li>
+            <li><a href="treino.html">Treinos</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <main class="main-container">
+        
+        <!-- Bloco do Formulário de Registro de Pagamento -->
+        <section class="form-container">
+            <h2 class="form-title">Registrar Pagamento</h2>
+            <form id="form-pagamento">
+                <div class="form-group">
+                    <label for="aluno">Aluno</label>
+                    <select id="aluno" required><option value="">Carregando alunos...</option></select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="valor-pago">Valor Pago (R$)</label>
+                    <input type="number" id="valor-pago" min="0" step="0.01" required placeholder="Ex: 89,90">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data-pagamento">Data de Pagamento</label>
+                    <input type="date" id="data-pagamento" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="forma-pagamento">Forma de Pagamento</label>
+                    <select id="forma-pagamento" required><option value="">Selecione</option><option>Pix</option><option>Cartão</option><option>Dinheiro</option><option>Transferência</option></select>
+                </div>
+                
+                <button type="submit" class="btn-submit">Registrar</button>
+            </form>
+        </section>
+
+        <!-- Bloco de Histórico de Pagamentos -->
+        <h2 class="section-title">Histórico de pagamentos</h2>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Forma de Pagamento</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-pagamentos"><tr><td colspan="4" class="empty-message">Carregando pagamentos...</td></tr></tbody>
+            </table>
+        </div>
+
+    </main>
+
+<script>
+const API=(location.protocol==="http:"||location.protocol==="https:")?"":"http://127.0.0.1:5000";
+const fpg=document.getElementById("form-pagamento");
+async function carregarOpcoesAlunos(){const sel=document.getElementById("aluno");const r=await fetch(`${API}/api/alunos`);const a=await r.json();sel.innerHTML='<option value="">Selecione um aluno</option>'+a.map(x=>`<option value="${x.id}">${String(x.nome).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}</option>`).join("");}
+async function listarPagamentos(){const tb=document.getElementById("tabela-pagamentos");try{const r=await fetch(`${API}/api/pagamentos`);const a=await r.json();tb.innerHTML=a.length?a.map(p=>`<tr><td>${p.aluno}</td><td>R$ ${Number(p.valor).toFixed(2).replace(".",",")}</td><td>${p.data}</td><td>${p.forma_pagamento||"—"}</td></tr>`).join(""):'<tr><td colspan="4" class="empty-message">Nenhum pagamento cadastrado.</td></tr>';}catch(e){tb.innerHTML='<tr><td colspan="4" class="empty-message">Não foi possível conectar à API.</td></tr>';}}
+fpg.addEventListener("submit",async e=>{e.preventDefault();const d={aluno_id:document.getElementById("aluno").value,valor:document.getElementById("valor-pago").value,data:document.getElementById("data-pagamento").value,forma_pagamento:document.getElementById("forma-pagamento").value,status:"Pago"};try{const r=await fetch(`${API}/api/pagamentos`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});const j=await r.json();if(!r.ok)throw Error(j.erro||"Erro ao registrar pagamento");fpg.reset();await listarPagamentos();alert(j.mensagem);}catch(e){alert(e.message||"Erro de conexão");}});
+carregarOpcoesAlunos().catch(()=>{});listarPagamentos();
+</script>
+</body>
+</html>

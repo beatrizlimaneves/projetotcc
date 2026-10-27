@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiaFit - Treinos</title>
+    <!-- Vinculando o mesmo arquivo CSS centralizado -->
+    <link rel="stylesheet" href="../css/prof.css">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <span class="logo-icon">🏋️</span>
+            <span class="brand-name">AcademiaFit</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="paginainicial.html">Dashboard</a></li>
+            <li><a href="aluno.html">Alunos</a></li>
+            <li><a href="prof.html">Professores</a></li>
+            <li><a href="planos.html">Planos</a></li>
+            <li><a href="pagamentos.html">Pagamentos</a></li>
+            <li><a href="treino.html" class="active">Treinos</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <main class="main-container">
+        
+        <!-- Bloco do Formulário de Cadastro de Treino -->
+        <section class="form-container">
+            <h2 class="form-title">Cadastrar Treino</h2>
+            <form>
+                <div class="form-group">
+                    <label for="nome-treino">Nome do Treino</label>
+                    <input type="text" id="nome-treino" placeholder="Ex: Treino A - Hipertrofia Peito">
+                </div>
+                
+                <div class="form-group">
+                    <label for="aluno-treino">Aluno</label>
+                    <input type="text" id="aluno-treino" placeholder="Nome do aluno">
+                </div>
+                
+                <div class="form-group">
+                    <label for="professor-treino">Professor Responsável</label>
+                    <input type="text" id="professor-treino" placeholder="Nome do professor">
+                </div>
+                
+                <div class="form-group">
+                    <label for="divisao">Divisão / Frequência</label>
+                    <input type="text" id="divisao" placeholder="Ex: ABCDE, 3x por semana">
+                </div>
+                
+                <button type="submit" class="btn-submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Bloco de Treinos Cadastrados -->
+        <h2 class="section-title">Treinos cadastrados</h2>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome do Treino</th>
+                        <th>Aluno</th>
+                        <th>Professor Responsável</th>
+                        <th>Divisão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas com a listagem de treinos entrarão aqui -->
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiaFit - Planos</title>
+    <!-- Vinculando o mesmo arquivo CSS -->
+    <link rel="stylesheet" href="../css/prof.css">
+    <link rel="stylesheet" href="../css/tema-roxo.css">
+</head>
+<body>
+<script>if(!sessionStorage.getItem('academiafit_usuario')){window.location.replace('login.html');}</script>
+
+
+    <!-- BARRA DE NAVEGAÇÃO -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <span class="logo-icon">🏋️</span>
+            <span class="brand-name">AcademiaFit</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="paginainicial.html">Dashboard</a></li>
+            <li><a href="aluno.html">Alunos</a></li>
+            <li><a href="prof.html">Professores</a></li>
+            <li><a href="planos.html" class="active">Planos</a></li>
+            <li><a href="pagamentos.html">Pagamentos</a></li>
+            <li><a href="treino.html">Treinos</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <main class="main-container">
+        
+        <!-- Bloco do Formulário de Cadastro -->
+        <section class="form-container">
+            <h2 class="form-title">Cadastrar Plano</h2>
+            <form id="form-plano">
+                <div class="form-group">
+                    <label for="nome-plano">Nome do Plano</label>
+                    <input type="text" id="nome-plano" required placeholder="Ex: Plano Mensal, Plano Anual">
+                </div>
+                
+                <div class="form-group">
+                    <label for="valor">Valor (R$)</label>
+                    <input type="number" id="valor" min="0" step="0.01" required placeholder="Ex: 89,90">
+                </div>
+                
+                <div class="form-group">
+                    <label for="duracao">Duração (Meses)</label>
+                    <input type="number" id="duracao" min="1" value="1" required placeholder="Ex: 1, 12">
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descrição / Benefícios</label>
+                    <input type="text" id="descricao" placeholder="Ex: Acesso livre a musculação e área cardio">
+                </div>
+                
+                <button type="submit" class="btn-submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Bloco de Planos Cadastrados -->
+        <h2 class="section-title">Planos cadastrados</h2>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome do Plano</th>
+                        <th>Valor</th>
+                        <th>Duração</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-planos"><tr><td colspan="4" class="empty-message">Carregando planos...</td></tr></tbody>
+            </table>
+        </div>
+
+    </main>
+
+<script>
+const API=(location.protocol==="http:"||location.protocol==="https:")?"":"http://127.0.0.1:5000";
+const fp=document.getElementById("form-plano");
+async function listarPlanos(){const tb=document.getElementById("tabela-planos");try{const r=await fetch(`${API}/api/planos`);const a=await r.json();tb.innerHTML=a.length?a.map(p=>`<tr><td>${p.nome}</td><td>R$ ${Number(p.preco).toFixed(2).replace(".",",")}</td><td>${p.duracao||1} mês(es)</td><td>${p.descricao||"—"}</td></tr>`).join(""):'<tr><td colspan="4" class="empty-message">Nenhum plano cadastrado.</td></tr>';}catch(e){tb.innerHTML='<tr><td colspan="4" class="empty-message">Não foi possível conectar à API.</td></tr>';}}
+fp.addEventListener("submit",async e=>{e.preventDefault();const d={nome:document.getElementById("nome-plano").value.trim(),preco:document.getElementById("valor").value,duracao:document.getElementById("duracao").value,descricao:document.getElementById("descricao").value};try{const r=await fetch(`${API}/api/planos`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});const j=await r.json();if(!r.ok)throw Error(j.erro||"Erro ao cadastrar");fp.reset();document.getElementById("duracao").value=1;listarPlanos();alert(j.mensagem);}catch(e){alert(e.message||"Erro de conexão");}});listarPlanos();
+</script>
+</body>
+</html>
