@@ -34,8 +34,9 @@ def executar(sql, valores=()):
         con.close()
 
 @app.route('/')
-def abrir_site():
+def inicio():
     return send_from_directory(PASTA_HTML, 'paginainicial.html')
+
 
 @app.route('/<path:caminho>')
 def carregar_arquivos(caminho):
