@@ -33,13 +33,17 @@ def executar(sql, valores=()):
     finally:
         con.close()
 
-@app.get("/")
-def inicio():
-    return jsonify({"mensagem":"API AcademiaFit funcionando!", "status":"ok"})
+@app.route('/')
+def abrir_site():
+    return send_from_directory(PASTA_HTML, 'paginainicial.html')
 
-@app.get("/api/teste")
-def teste():
-    return jsonify({"status":"ok","mensagem":"API e banco acessíveis."})
+@app.route('/<path:caminho>')
+def carregar_arquivos(caminho):
+    if caminho.endswith('.html'):
+        return send_from_directory(PASTA_HTML, caminho)
+    return send_from_directory(PASTA_PROJETO, caminho)
+
+
 
 @app.get("/api/dashboard")
 def dashboard():
