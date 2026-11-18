@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory
 import sqlite3
 from functools import wraps
 from flask import Flask, request, jsonify
@@ -7,6 +7,10 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import conectar, criar_banco
 
+PASTA_PROJETO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+PASTA_HTML = os.path.join(PASTA_PROJETO, 'html')
+
+app = Flask(__name__, static_folder=PASTA_PROJETO, static_url_path='')
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": os.environ.get("CORS_ORIGINS", "*")}})
 criar_banco()
